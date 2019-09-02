@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView tvFact;
 
     private int lastHero;
+    private int currentHero;
     private int nextHero;
     private Random random;
 
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tvFact = findViewById(R.id.tvFact);
 
         lastHero = 0;
+        currentHero = 0;
         nextHero = 0;
         random = new Random();
     }
@@ -101,11 +103,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v)
     {
         tvFact.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-        while (lastHero == nextHero)
+
+        while (currentHero == nextHero || nextHero == lastHero)
         {
            nextHero = random.nextInt(4);
         }
-        lastHero = nextHero;
+        lastHero = currentHero;
+        currentHero = nextHero;
 
         tvTitle.setText(getHeroName(nextHero));
         ivImage.setImageResource(getHeroImage(nextHero));
@@ -116,5 +120,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         {
             tvFact.append(heroFacts[i]);
         }
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+
     }
 }
